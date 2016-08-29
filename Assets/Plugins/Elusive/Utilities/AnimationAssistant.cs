@@ -3,13 +3,13 @@ using UnityEngine;
 using UnityEditor;
 using System.IO;
 
-namespace Elusive.Utilitiess
+namespace Elusive.Utilities
 {
 
     public class AnimationAssistant
     {
 
-        [MenuItem("Assets/Systran/Animation/Create Animation Clip")]
+        [MenuItem("Assets/Animation/Create Animation Clip")]
         private static void CreateClip()
         {
             Object[] selectedControllers = Selection.GetFiltered(typeof(RuntimeAnimatorController), SelectionMode.Assets);
@@ -28,7 +28,7 @@ namespace Elusive.Utilitiess
         }
 
 
-        [MenuItem("Assets/Systran/Animation/Group Animation Clip")]
+        [MenuItem("Assets/Animation/Group Animation Clip")]
         private static void AddClip()
         {
             Object[] selectedControllers = Selection.GetFiltered(typeof(RuntimeAnimatorController), SelectionMode.Assets);
@@ -94,7 +94,7 @@ namespace Elusive.Utilitiess
 
 
 
-        [MenuItem("Assets/Systran/Animation/Remove Animation Clip")]
+        [MenuItem("Assets/Animation/Remove Animation Clip")]
         private static void RemoveClip()
         {
             Object[] selectedAnimationClips = Selection.GetFiltered(typeof(AnimationClip), SelectionMode.Deep);
@@ -118,7 +118,7 @@ namespace Elusive.Utilitiess
 
 
 
-        [MenuItem("Assets/Systran/Animation/Create Animation Clip", true)]
+        [MenuItem("Assets/Animation/Create Animation Clip", true)]
         private static bool ValidateCreateClip()
         {
             Object[] selectedControllers = Selection.GetFiltered(typeof(RuntimeAnimatorController), SelectionMode.Assets);
@@ -131,7 +131,7 @@ namespace Elusive.Utilitiess
         }
 
 
-        [MenuItem("Assets/Systran/Animation/Group Animation Clip", true)]
+        [MenuItem("Assets/Animation/Group Animation Clip", true)]
         private static bool ValidateAddClip()
         {
             Object[] selectedControllers = Selection.GetFiltered(typeof(RuntimeAnimatorController), SelectionMode.Assets);
@@ -141,7 +141,7 @@ namespace Elusive.Utilitiess
         }
 
 
-        [MenuItem("Assets/Systran/Animation/Remove Animation Clip", true)]
+        [MenuItem("Assets/Animation/Remove Animation Clip", true)]
         private static bool ValidateRemoveClip()
         {
             Object[] selectedClips = Selection.GetFiltered(typeof(AnimationClip), SelectionMode.Deep);
