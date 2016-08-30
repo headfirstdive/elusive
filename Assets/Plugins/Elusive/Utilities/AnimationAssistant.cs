@@ -122,7 +122,22 @@ namespace Elusive.Utilities
 
 
 
-        [MenuItem("Assets/Animation/Create Animation Clip", true)]
+        [MenuItem("Assets/Animation/Rename Animation Clip")]
+        private static void RenameClip()
+        {
+            Object[] selectedClips = Selection.GetFiltered(typeof(AnimationClip), SelectionMode.Deep);
+            var assetToRename = selectedClips[0];
+            // Initialize the rename popup
+            RenamePopup.Init((string s) =>
+            {
+                assetToRename.name = s;
+                AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(assetToRename));
+            });
+        }
+
+
+
+        [MenuItem("Assets/Animation/Add New Animation Clip", true)]
         private static bool ValidateCreateClip()
         {
             Object[] selectedControllers = Selection.GetFiltered(typeof(RuntimeAnimatorController), SelectionMode.Assets);
@@ -156,6 +171,15 @@ namespace Elusive.Utilities
             }
 
             return selectedClips.Length > 0;
+        }
+
+
+        [MenuItem("Assets/Animation/Rename Animation Clip", true)]
+        private static bool ValidateRenameClip()
+        {
+            Object[] selectedClips = Selection.GetFiltered(typeof(AnimationClip), SelectionMode.Deep);
+
+            return selectedClips.Length == 1;
         }
 
 

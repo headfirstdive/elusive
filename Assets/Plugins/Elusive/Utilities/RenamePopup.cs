@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using System;
 using UnityEditor;
 using UnityEngine;
@@ -27,14 +28,15 @@ namespace Elusive.Utilities
             objectName = EditorGUILayout.TextField(objectName);
             GUI.FocusControl("renameField");
 
-            if (GUILayout.Button("Accept")) OnAccept();
+            if (GUILayout.Button("Accept")) Accept();
         }
 
 
-        private void OnAccept()
+        private void Accept()
         {
             acceptedCallback(objectName);
             this.Close();
         }
     }
 }
+#endif
