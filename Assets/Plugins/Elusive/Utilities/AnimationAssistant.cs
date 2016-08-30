@@ -9,7 +9,7 @@ namespace Elusive.Utilities
     public class AnimationAssistant
     {
 
-        [MenuItem("Assets/Animation/Create Animation Clip")]
+        [MenuItem("Assets/Animation/Add New Animation Clip")]
         private static void CreateClip()
         {
             Object[] selectedControllers = Selection.GetFiltered(typeof(RuntimeAnimatorController), SelectionMode.Assets);
@@ -20,11 +20,15 @@ namespace Elusive.Utilities
                 targetController = selectedControllers[0] as RuntimeAnimatorController;
 
             if (targetController == null) return;
-            var animationClip = new AnimationClip {name = "New Animation"};
 
-            // Add an animation clip to the controller
-            AssetDatabase.AddObjectToAsset(animationClip, targetController);
-            AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(targetController));
+            // Initialize the rename popup and create an asset
+            RenamePopup.Init((string s) =>
+            {
+                // Add an animation clip to the controller
+                var animationClip = new AnimationClip { name = s };
+                AssetDatabase.AddObjectToAsset(animationClip, targetController);
+                AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(targetController));
+            });
         }
 
 
