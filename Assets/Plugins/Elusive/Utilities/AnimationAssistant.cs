@@ -163,8 +163,10 @@ namespace Elusive.Utilities
                     animationClipCopy.SetCurve(data.path, data.type, data.propertyName, data.curve);
                 }
 
-                //AssetDatabase.CreateAsset(animationClipCopy, parentDirectory);
+                string buildPathName = string.Format("{0}/{1}", parentDirectory, animationClipCopy.name);
+                var newPath = AssetDatabase.GenerateUniqueAssetPath(buildPathName);
 
+                AssetDatabase.CreateAsset(animationClipCopy, newPath);
             }
         }
 
