@@ -13,7 +13,7 @@ namespace Elusive.Utilities
         private static void CreateClip()
         {
             Object[] selectedControllers = Selection.GetFiltered(typeof(RuntimeAnimatorController), SelectionMode.Assets);
-            
+
             // Get the first controller from the selected controllers
             RuntimeAnimatorController targetController = null;
             if (selectedControllers.Length > 0)
@@ -33,13 +33,12 @@ namespace Elusive.Utilities
 
 
         [MenuItem("Assets/Animation/Group Animation Clip")]
-        private static void AddClip()
+        private static void GroupClips()
         {
             Object[] selectedControllers = Selection.GetFiltered(typeof(RuntimeAnimatorController), SelectionMode.Assets);
             Object[] selectedClips = Selection.GetFiltered(typeof(AnimationClip), SelectionMode.Assets);
 
-            string s = AssetDatabase.GetAssetPath(Selection.activeObject);
-            string parentDirectory = s.Remove(s.LastIndexOf('/'));
+            var parentDirectory = ParentDirectory();
             string backupFolderName = "_backup";
 
             RuntimeAnimatorController targetController = null;
@@ -96,6 +95,12 @@ namespace Elusive.Utilities
             AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(targetController));
         }
 
+        private static string ParentDirectory()
+        {
+            string s = AssetDatabase.GetAssetPath(Selection.activeObject);
+            string parentDirectory = s.Remove(s.LastIndexOf('/'));
+            return parentDirectory;
+        }
 
 
         [MenuItem("Assets/Animation/Remove Animation Clip")]
@@ -135,6 +140,33 @@ namespace Elusive.Utilities
             });
         }
 
+
+        [MenuItem("Assets/Animation/Ungroup Animation Clip")]
+        private static void UngroupClip()
+        {
+            Object[] selectedClips = Selection.GetFiltered(typeof(AnimationClip), SelectionMode.Deep);
+
+            var parentDirectory = ParentDirectory();
+
+            foreach (var selectedClip in selectedClips)
+            {
+                var animationClipCopy = new AnimationClip();
+
+                var animationClip = selectedClip as AnimationClip;
+                animationClipCopy.name = animationClip.name;
+
+                AnimationUtility.SetAnimationClipSettings(animationClipCopy, AnimationUtility.GetAnimationClipSettings(animationClip));
+                AnimationClipCurveData[] curveData = AnimationUtility.GetAllCurves(animationClip, true);
+
+                foreach (var data in curveData)
+                {
+                    animationClipCopy.SetCurve(data.path, data.type, data.propertyName, data.curve);
+                }
+
+                //AssetDatabase.CreateAsset(animationClipCopy, parentDirectory);
+
+            }
+        }
 
 
         [MenuItem("Assets/Animation/Add New Animation Clip", true)]
