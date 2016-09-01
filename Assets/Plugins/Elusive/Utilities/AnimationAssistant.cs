@@ -148,6 +148,7 @@ namespace Elusive.Utilities
 
             var parentDirectory = ParentDirectory();
 
+            string mainAsset = string.Empty;
             foreach (var selectedClip in selectedClips)
             {
                 var animationClipCopy = new AnimationClip();
@@ -163,11 +164,18 @@ namespace Elusive.Utilities
                     animationClipCopy.SetCurve(data.path, data.type, data.propertyName, data.curve);
                 }
 
-                string buildPathName = string.Format("{0}/{1}", parentDirectory, animationClipCopy.name);
+                string buildPathName = string.Format("{0}/{1}.anim", parentDirectory, animationClipCopy.name);
                 var newPath = AssetDatabase.GenerateUniqueAssetPath(buildPathName);
 
                 AssetDatabase.CreateAsset(animationClipCopy, newPath);
+                AssetDatabase.SaveAssets();
+
+                mainAsset = AssetDatabase.GetAssetPath(animationClip);
+                Object.DestroyImmediate(animationClip, true);
             }
+
+            if (mainAsset != string.Empty) AssetDatabase.ImportAsset(mainAsset);
+
         }
 
 
