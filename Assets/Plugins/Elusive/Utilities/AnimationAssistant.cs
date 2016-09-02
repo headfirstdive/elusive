@@ -216,6 +216,20 @@ namespace Elusive.Utilities
         }
 
 
+        [MenuItem("Assets/Animation/Ungroup Animation Clip", true)]
+        private static bool ValidateUngroupClip()
+        {
+            Object[] selectedClips = Selection.GetFiltered(typeof(AnimationClip), SelectionMode.Deep);
+
+            foreach (var clip in selectedClips)
+            {
+                if (!AssetDatabase.IsSubAsset(clip)) return false;
+            }
+
+            return selectedClips.Length > 0;
+        }
+
+
         [MenuItem("Assets/Animation/Rename Animation Clip", true)]
         private static bool ValidateRenameClip()
         {
